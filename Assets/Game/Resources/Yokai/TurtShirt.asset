@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278046f48fecc34448c906f978941d4b, type: 3}
+  m_Name: TurtShirt
+  m_EditorClassIdentifier: 
+  name: TurtShirt
+  description: 
+  linkedPrefab: {fileID: 135881001725341859, guid: 44afa05adbda5c64497f6d952181f604,
+    type: 3}
+  element1: 12
+  element2: 3
+  maxHp: 47
+  attack: 65
+  mAttack: 20
+  defense: 35
+  mDefense: 55
+  speed: 40
+  expYield: 400
+  catchRate: 250
+  growthRate: 0
+  learnableAbilities:
+  - abilityBase: {fileID: 11400000, guid: 3075fedc7b159404ca6e669cbf26ef1d, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: 5e75cab62ba82d946a3fec65368ce5d4, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: f2357640b8e414e4f8bfde0a430602af, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: e7525356091eebf4abb1b7df7b072883, type: 2}
+    level: 12

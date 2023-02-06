@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278046f48fecc34448c906f978941d4b, type: 3}
+  m_Name: Glopps
+  m_EditorClassIdentifier: 
+  name: Glopps
+  description: 
+  linkedPrefab: {fileID: 3899891039275147773, guid: 5dc2c28fa9cb5464fb33576d40f0cddb,
+    type: 3}
+  element1: 7
+  element2: 2
+  maxHp: 45
+  attack: 49
+  mAttack: 65
+  defense: 49
+  mDefense: 65
+  speed: 45
+  expYield: 400
+  catchRate: 250
+  growthRate: 1
+  learnableAbilities:
+  - abilityBase: {fileID: 11400000, guid: 679caca7026801d43b56f325f7d098bf, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: 04d33cc849c9c1f4eb0fbd91c90cfaf8, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: f0716dddfefa08249806a853967bd724, type: 2}
+    level: 3
+  - abilityBase: {fileID: 11400000, guid: 222e49bee3b746f40ba1321ffa731ac2, type: 2}
+    level: 13
