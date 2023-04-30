@@ -5,21 +5,30 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Abilities", menuName = "Yokai/Create new Ability", order = 0)]
 public class AbilitiesBase : ScriptableObject 
 {
+    [Header("Ability Name")]
     [SerializeField] new string name;
 
     [TextArea]
-    [SerializeField] string description; 
+    [SerializeField] string description;
 
+    [Header("Types")]
     [SerializeField] Element element;
+
+    [Header("Stats")]
     [SerializeField] int power;
     [SerializeField] int accuracy;
-    [SerializeField] bool alwaysHits;
     [SerializeField] int pp;
-    [SerializeField] int priority; 
+
+    [Header("Attributes")]
+    [SerializeField] bool alwaysHits;
+    [SerializeField] int priority;
+    [SerializeField] AbilityTarget target;
     [SerializeField] AbilityCategory category;
     [SerializeField] AbilityEffects effects;
-    [SerializeField] AbilityTarget target; 
-    [SerializeField] List<Secondaries> secondaries; 
+    [SerializeField] List<Secondaries> secondaries;
+
+    [Header("Audio")]
+    [SerializeField] AudioClip sound;
 
     public string Name {
         get { return name; }
@@ -64,6 +73,8 @@ public class AbilitiesBase : ScriptableObject
     public List<Secondaries> Secondaries {
         get { return secondaries; }
     }
+
+    public AudioClip Sound => sound;
 }
 
 [System.Serializable]

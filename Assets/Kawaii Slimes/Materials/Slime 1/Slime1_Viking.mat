@@ -8,15 +8,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Slime1_Viking
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 8e4aa978543a6d04ca46d50877440184,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -45,6 +45,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DiffuseTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -62,6 +66,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OutlineZOffsetMaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -103,11 +111,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdditionalLightIgnoreCelShade: 0.9
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AmbientCol: 0.553
+    - _Ambient_Strength: 0
     - _Blend: 0
     - _BumpScale: 1
+    - _CelShadeMidPoint: -0.5
+    - _CelShadeSoftness: 0.05
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Clip: 0
@@ -118,20 +130,37 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DirectLightMultiplier: 1
     - _DstBlend: 0
     - _EdgeThickness: 1
+    - _EmissionMulByBaseColor: 0
     - _EnvironmentReflections: 1
+    - _Falloff_Amount: 0
+    - _Fresnel_Size: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _IndirectLightMultiplier: 1
+    - _IsFace: 0
+    - _Lighting_Cutoff: 0
     - _Lumin: 0
+    - _MainLightIgnoreCelShade: 0
     - _MaxLight: 1
     - _Metallic: 0
     - _MinLight: 0
+    - _OcclusionRemapEnd: 1
+    - _OcclusionRemapStart: 0
     - _OcclusionStrength: 1
     - _Offset: 0.59
+    - _OutlineWidth: 1
+    - _OutlineZOffset: 0.0001
+    - _OutlineZOffsetMaskRemapEnd: 1
+    - _OutlineZOffsetMaskRemapStart: 0
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReceiveShadowMappingAmount: 0.65
+    - _ReceiveShadowMappingPosOffset: 0
     - _ReceiveShadows: 1
     - _RimOffset: -0.4
     - _RimPower: 10
@@ -147,16 +176,27 @@ Material:
     - _Steps: 2.4
     - _StpSmooth: 0.317
     - _Surface: 0
+    - _UseAlphaClipping: 0
+    - _UseEmission: 0
+    - _UseOcclusion: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Diffuse_Color: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}
+    - _Fresnel_Color: {r: 0.5283019, g: 0.28657886, b: 0.28657886, a: 0}
+    - _IndirectLightMinColor: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 1}
+    - _OcclusionMapChannelMask: {r: 1, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _RimColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - _ShadowColor: {r: 0.745283, g: 0.64348674, b: 0.35506406, a: 1}
+    - _ShadowMapColor: {r: 1, g: 0.825, b: 0.78, a: 1}
     - _ShnColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Specular_Color: {r: 0.7924528, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1279713253239269728
 MonoBehaviour:

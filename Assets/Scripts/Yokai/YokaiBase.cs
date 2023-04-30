@@ -1,36 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Yokai", menuName = "Yokai/Create new Yokai")]
 public class YokaiBase : ScriptableObject {
-    
+    [Header("Yokai Name")]
     [SerializeField] new string name;
 
     [TextArea]
     [SerializeField] string description;
 
+    [Header("Yokai Model")]
     [SerializeField] GameObject linkedPrefab;
 
     //Affinities
+    [Header("Yokai Types")]
     [SerializeField] YokaiElement element1;
     [SerializeField] YokaiElement element2;
 
     public static int MaxNumAbilities {get; set; } = 4;
 
     // Base Stats
+    [Header("Base Stats")]
     [SerializeField] int maxHp;
     [SerializeField] int attack;
-    [SerializeField] int mAttack;
     [SerializeField] int defense;
+    [SerializeField] int mAttack;
     [SerializeField] int mDefense;
     [SerializeField] int speed;
+
+    [Header("Util")]
     [SerializeField] int expYield;
     [SerializeField] int catchRate = 255;
-
     [SerializeField] GrowthRate growthRate;
 
+    [Header("Learnable Abilities")]
     [SerializeField] List<LearnableAbilities> learnableAbilities; 
+    [SerializeField] List<AbilitiesBase> learnableByItems;
+
+    // if one yokai can evolve into many (branching evolutions)
+    [Header("Evolutions")]
+    [SerializeField] List<Evolution> evolutions;
 
     public int GetExpForLevel(int level) {
         switch(growthRate) {
@@ -91,6 +102,10 @@ public class YokaiBase : ScriptableObject {
         get { return learnableAbilities; }
     }
 
+    public List<AbilitiesBase> LearnableByItems => learnableByItems;
+
+    public List<Evolution> Evolutions => evolutions;
+
     public int CatchRate {
         get { return catchRate; }
     }
@@ -117,6 +132,18 @@ public class LearnableAbilities
     public int Level {
         get { return level; }
     }
+}
+
+[System.Serializable]
+public class Evolution
+{
+    [SerializeField] YokaiBase evolvesInto;
+    [SerializeField] int requiredLevel;
+    [SerializeField] EvolutionItem requiredItem;
+
+    public YokaiBase EvolvesInto => evolvesInto;
+    public EvolutionItem RequiredItem => requiredItem;
+    public int RequiredLevel => requiredLevel;
 }
 
 public enum YokaiElement {

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278046f48fecc34448c906f978941d4b, type: 3}
+  m_Name: VikSlimmith
+  m_EditorClassIdentifier: 
+  name: Vikslimmith
+  description: 
+  linkedPrefab: {fileID: 6688149642241925542, guid: 11eed2dfd1329ab4db9e7f27b8e628b7,
+    type: 3}
+  element1: 11
+  element2: 7
+  maxHp: 68
+  attack: 165
+  defense: 95
+  mAttack: 65
+  mDefense: 115
+  speed: 110
+  expYield: 400
+  catchRate: 250
+  growthRate: 0
+  learnableAbilities:
+  - abilityBase: {fileID: 11400000, guid: 83fc52e6a3ebb534483a5a6587f89da9, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: 4c3a3b793a4b5a546bff9579aeff6c8a, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: eeec106a73f01bf40aad2b6e83e82f42, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: 477c31b6a47a96e4782bd0e6574a6988, type: 2}
+    level: 1
+  learnableByItems:
+  - {fileID: 11400000, guid: 86564438f9bebe140b054daa47dccd82, type: 2}
+  evolutions: []

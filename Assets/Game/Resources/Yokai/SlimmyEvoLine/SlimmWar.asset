@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278046f48fecc34448c906f978941d4b, type: 3}
+  m_Name: SlimmWar
+  m_EditorClassIdentifier: 
+  name: SlimmWar
+  description: 
+  linkedPrefab: {fileID: 3198502390492704377, guid: 0ba0f6eee23032e4e83d421e739dc905,
+    type: 3}
+  element1: 18
+  element2: 11
+  maxHp: 38
+  attack: 35
+  defense: 35
+  mAttack: 65
+  mDefense: 55
+  speed: 50
+  expYield: 200
+  catchRate: 255
+  growthRate: 0
+  learnableAbilities:
+  - abilityBase: {fileID: 11400000, guid: 41f3963b981a45b46b9555e8ff66ce95, type: 2}
+    level: 0
+  - abilityBase: {fileID: 11400000, guid: 83fc52e6a3ebb534483a5a6587f89da9, type: 2}
+    level: 0
+  - abilityBase: {fileID: 11400000, guid: c10729c028dade44bbf69dec7b9b5cf2, type: 2}
+    level: 0
+  - abilityBase: {fileID: 11400000, guid: fd7f114de163fda4a8672c7d1aef0f01, type: 2}
+    level: 0
+  learnableByItems:
+  - {fileID: 11400000, guid: 86564438f9bebe140b054daa47dccd82, type: 2}
+  evolutions:
+  - evolvesInto: {fileID: 11400000, guid: eac6ae886405f55428359f255ca1569d, type: 2}
+    requiredLevel: 25
+    requiredItem: {fileID: 0}
+  - evolvesInto: {fileID: 11400000, guid: b6ee65de4b9356648ad26a88a6509bc6, type: 2}
+    requiredLevel: 0
+    requiredItem: {fileID: 11400000, guid: f28d7104c2f4ec949b7405ffbe3341c3, type: 2}

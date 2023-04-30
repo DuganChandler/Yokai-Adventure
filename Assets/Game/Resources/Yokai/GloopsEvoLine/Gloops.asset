@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278046f48fecc34448c906f978941d4b, type: 3}
+  m_Name: Gloops
+  m_EditorClassIdentifier: 
+  name: Gloops
+  description: 
+  linkedPrefab: {fileID: 1229673580555030965, guid: 3147cd3ec5a1e9d4e9ff04d02aa9e033,
+    type: 3}
+  element1: 2
+  element2: 0
+  maxHp: 55
+  attack: 70
+  defense: 45
+  mAttack: 70
+  mDefense: 50
+  speed: 60
+  expYield: 400
+  catchRate: 250
+  growthRate: 1
+  learnableAbilities:
+  - abilityBase: {fileID: 11400000, guid: 679caca7026801d43b56f325f7d098bf, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: 04d33cc849c9c1f4eb0fbd91c90cfaf8, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: f0716dddfefa08249806a853967bd724, type: 2}
+    level: 1
+  - abilityBase: {fileID: 11400000, guid: 222e49bee3b746f40ba1321ffa731ac2, type: 2}
+    level: 12
+  - abilityBase: {fileID: 11400000, guid: 2adc7f14a1694004d913b5d289aef9dd, type: 2}
+    level: 26
+  learnableByItems:
+  - {fileID: 11400000, guid: 6ff5f2bace8f2244d9f94aa068a17174, type: 2}
+  - {fileID: 11400000, guid: 8d94fd0888316494480377be1fb62b0f, type: 2}
+  evolutions:
+  - evolvesInto: {fileID: 11400000, guid: d95c7ff9e7399034d911bea85820e1c4, type: 2}
+    requiredLevel: 20
+    requiredItem: {fileID: 0}

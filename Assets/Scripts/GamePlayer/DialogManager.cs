@@ -6,12 +6,17 @@ using System;
 
 public class DialogManager : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] GameObject dialogBox;
+
+    [Header("Dialog")]
     [SerializeField] TextMeshProUGUI dialogText;
+
+    [Header("Dialog Speed")]
     [SerializeField] int letterPerSecond;
 
     public event Action OnShowDialog;
-    public event Action OnCloseDialog;
+    public event Action OnDialogFinished;
 
     //singleton, since it is static, can reference any class since it will be used frequently
     public static DialogManager Instance { get; private set; }
@@ -19,48 +24,59 @@ public class DialogManager : MonoBehaviour
         Instance = this;
     }
 
-    Dialog dialog;
-    Action onDialogFinished;
-    int currentLine = 0;
-    // So user cannot skip the dialog
-    bool isTyping;
     public bool IsShowing { get; private set; }
 
-    public IEnumerator ShowDialog(Dialog dialog, Action onFinished=null) {
+    public IEnumerator ShowDialogText(string text, bool waitForInput = true, bool autoClose = true) {
+        OnShowDialog?.Invoke();
+        IsShowing = true;
+        dialogBox.SetActive(true);
+
+        AudioManager.i.PlaySfx(AudioID.UISelect);
+        yield return TypeDialog(text);
+        if (waitForInput) {
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        }
+
+        if (autoClose) {
+            CloseDialog();
+        }
+
+        OnDialogFinished?.Invoke();
+    }
+
+    public void CloseDialog() {
+        dialogBox.SetActive(false);
+        IsShowing = false;
+    }
+
+    public IEnumerator ShowDialog(Dialog dialog) {
         yield return new WaitForEndOfFrame();
 
         OnShowDialog?.Invoke();
-
         IsShowing = true;
-        this.dialog = dialog;
-        onDialogFinished = onFinished;
-
         dialogBox.SetActive(true);
-        StartCoroutine(TypeDialog(dialog.Lines[0]));
+
+        foreach (var line in dialog.Lines)
+        {
+            AudioManager.i.PlaySfx(AudioID.UISelect);
+            yield return TypeDialog(line);
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
+        }
+
+        dialogBox.SetActive(false);
+        IsShowing = false;
+        OnDialogFinished?.Invoke();
     }
 
     public void HandleUpdate() {
-        if (Input.GetKeyDown(KeyCode.Z) && !isTyping) {
-            ++currentLine; 
-             if (currentLine < dialog.Lines.Count) {
-                StartCoroutine(TypeDialog(dialog.Lines[currentLine]));
-             } else {
-                currentLine = 0;
-                IsShowing = false;
-                dialogBox.SetActive(false);
-                onDialogFinished?.Invoke();
-                OnCloseDialog();
-             }
-        }
+        
     }
 
     public IEnumerator TypeDialog(string line) {
-        isTyping = true;
         dialogText.text = "";
         foreach (var letter in line.ToCharArray()) {
             dialogText.text += letter;
             yield return new WaitForSeconds(1f / letterPerSecond);
         }
-        isTyping = false;
     }
 }

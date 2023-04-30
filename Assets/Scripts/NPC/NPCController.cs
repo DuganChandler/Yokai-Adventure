@@ -5,43 +5,53 @@ using StarterAssets;
 
 public class NPCController : MonoBehaviour, IInteractable
 {
+    // Fields
     [SerializeField] Dialog dialog;   
     [SerializeField] Animator animator;
+
+    // State
     NPCState state;
+
+    // NPC idle time
     float idleTimer = 0f;
-    [SerializeField] bool canHeal;
-    [SerializeField] ThirdPersonController playerController;
-    YokaiParty playerParty;
+
+    // NPC Types
+    ItemGiver itemGiver;
     Healer healer;
-    Transform player;
+    
 
     private void Awake() {
-        var playerParty = playerController.GetComponent<YokaiParty>();
         healer = GetComponent<Healer>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        itemGiver = GetComponent<ItemGiver>();
     }
-    public void Interact()
+    public IEnumerator Interact(Transform initiator)
     {
         // creates the singleton instance of DialogManager
         // be careful since it is really easy to call, can craeted unwanted dependencies
-        if (state == NPCState.Idle){
+        if (state == NPCState.Idle)
+        {
             state = NPCState.Dialog;
-            if (healer != null){
-                StartCoroutine(healer.Heal(transform, dialog));
-            } else {
-                StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () => {
-                    idleTimer = 0;
-                    state = NPCState.Idle;
-                }));
+            if (itemGiver != null && itemGiver.CanBeGiven())
+            {
+                yield return itemGiver.GiveItem(initiator.GetComponent<ThirdPersonController>());
+            } 
+            else if (healer != null)
+            {
+                yield return healer.Heal(initiator, dialog);
+            }
+            else
+            {
+                yield return DialogManager.Instance.ShowDialog(dialog);
+                idleTimer = 0;
+                state = NPCState.Idle;
             }
         }
-        //idleTimer = 0;
-        //state = NPCState.Idle;
-            
     }
 
+
+
+        
     private void Update() {
-        Debug.Log(state);
         if (state == NPCState.Idle) {
             if (idleTimer > 2f) {
                 //move

@@ -11,4 +11,28 @@ public class Ability
         Base = aBase;
         PP = aBase.PP;
     }
+
+    public Ability(AbilitySaveData saveData) {
+        Base =  AbilityDB.GetObjectByName(saveData.name);
+        PP = saveData.pp;
+    }
+
+    public AbilitySaveData GetSaveData() {
+        var saveData = new AbilitySaveData() {
+            name = Base.name,
+            pp = PP
+        };
+
+        return saveData;
+    }
+
+    public void IncreasePP(int amount) {
+        PP = Mathf.Clamp(PP + amount, 0, Base.PP);
+    }
+}
+
+[System.Serializable]
+public class AbilitySaveData {
+    public string name;
+    public int pp;
 }

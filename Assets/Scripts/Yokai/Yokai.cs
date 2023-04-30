@@ -6,7 +6,10 @@ using System.Linq;
 [System.Serializable]
 public class Yokai
 {
+    [Header("Yokai SO")]
     [SerializeField] YokaiBase _base;
+
+    [Header("Yokai Level")]
     [SerializeField] int level;
 
     public Yokai(YokaiBase yBase, int yLevel) {
@@ -41,8 +44,8 @@ public class Yokai
     public int VolitileStatusTime { get; set; }
 
     public Queue<string> StatusChanges { get; private set; }
-    public bool HpChanged { get; set; }
     public event System.Action OnStatusChanged;
+    public event System.Action OnHpChanged;
 
     public void Init() {
 
@@ -67,6 +70,39 @@ public class Yokai
         VolitileStatus = null;
     }
 
+    public Yokai(YokaiSaveData saveData) {
+        _base = YokaiDB.GetObjectByName(saveData.name);
+        HP = saveData.hp;
+        level = saveData.level;
+        EXP = saveData.exp;
+
+        if (saveData.statusId != null) {
+            Status = ConditionsDB.Conditions[saveData.statusId.Value];
+        } else {
+            Status = null;
+        }
+
+        Abilities = saveData.abilities.Select(s => new Ability(s)).ToList();
+
+        CalculateStats();
+        StatusChanges = new Queue<string>();
+        ResetStatBoost();
+        VolitileStatus = null;
+    }
+
+    public YokaiSaveData GetSaveData() {
+        var saveData = new YokaiSaveData() {
+            name = Base.name,
+            hp = HP,
+            level = Level,
+            exp = EXP,
+            statusId = Status?.Id,
+            abilities = Abilities.Select(a => a.GetSaveData()).ToList()
+        };
+
+        return saveData;
+    }
+
     void CalculateStats() {
         Stats = new Dictionary<Stat, int>();
         Stats.Add(Stat.Attack, Mathf.FloorToInt((Base.Attack * Level) / 100f) + 5);
@@ -75,7 +111,11 @@ public class Yokai
         Stats.Add(Stat.MDefense, Mathf.FloorToInt((Base.Attack * Level) / 100f) + 5);
         Stats.Add(Stat.Speed, Mathf.FloorToInt((Base.Attack * Level) / 100f) + 5);
 
+        int oldMaxHP = MaxHp;
         MaxHp = Mathf.FloorToInt((Base.MaxHp * Level) / 100f) + 10 + Level;
+
+        if (oldMaxHP != 0)
+            HP += MaxHp - oldMaxHP;
     }
 
     void ResetStatBoost() {
@@ -124,6 +164,7 @@ public class Yokai
     public bool CheckForLevelUp() {
         if (EXP >= Base.GetExpForLevel(level + 1)) {
             ++level;
+            CalculateStats();
             return true;
         }
         return false;
@@ -133,12 +174,32 @@ public class Yokai
         return Base.LearnableAbilities.Where(x => x.Level == level).FirstOrDefault();
     }
 
-    public void LearnAbility(LearnableAbilities abilityToLearn) {
+    public void LearnAbility(AbilitiesBase abilityToLearn) {
         if (Abilities.Count > YokaiBase.MaxNumAbilities) {
             return;
         }
 
-        Abilities.Add(new Ability(abilityToLearn.Base));
+        Abilities.Add(new Ability(abilityToLearn));
+    }
+
+    public bool HasAbility(AbilitiesBase abilityToCheck) {
+        return Abilities.Count(a => a.Base == abilityToCheck) > 0;
+    }
+
+    public Evolution CheckForEvolution()
+    {
+        return Base.Evolutions.FirstOrDefault(e => e.RequiredLevel <= level && e.RequiredLevel != 0);
+    }
+
+    public Evolution CheckForEvolution(ItemBase item)
+    {
+        return Base.Evolutions.FirstOrDefault(e => e.RequiredItem == item);
+    }
+
+    public void Evolve(Evolution evolution)
+    {
+        _base = evolution.EvolvesInto;
+        CalculateStats();
     }
 
     public int Attack {
@@ -186,14 +247,19 @@ public class Yokai
         float d= a * ability.Base.Power * ((float)attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
-        UpdateHP(damage);
+        DecreaseHP(damage);
 
         return damageDetails; 
     }
 
-    public void UpdateHP(int damage) {
+    public void DecreaseHP(int damage) {
         HP = Mathf.Clamp(HP - damage, 0, MaxHp);
-        HpChanged = true;
+        OnHpChanged?.Invoke();
+    }
+
+    public void IncreaseHP(int amount) {
+        HP = Mathf.Clamp(HP + amount, 0, MaxHp);
+        OnHpChanged?.Invoke();
     }
 
     public void SetStatus(ConditionID conditionId) {
@@ -238,6 +304,7 @@ public class Yokai
     public void Heal() {
         Debug.Log("Healed");
         HP = MaxHp;
+        OnHpChanged?.Invoke();
     }
 
 
@@ -274,4 +341,14 @@ public class DamageDetails
     public bool Defeated { get; set; }
     public float Crit { get; set; }
     public float ElementEffectiveness { get; set; }
+}
+
+[System.Serializable]
+public class YokaiSaveData {
+    public int hp;
+    public int level;
+    public int exp;
+    public ConditionID? statusId;
+    public string name;
+    public List<AbilitySaveData> abilities;
 }

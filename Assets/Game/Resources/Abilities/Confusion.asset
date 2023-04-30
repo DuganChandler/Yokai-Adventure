@@ -14,13 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Confusion
   description: 
-  element: 0
-  power: 0
+  element: 11
+  power: 50
   accuracy: 100
-  pp: 10
-  category: 2
+  pp: 25
+  alwaysHits: 0
+  priority: 0
+  target: 0
+  category: 1
   effects:
     boosts: []
     status: 0
+    volitileStatus: 0
+  secondaries:
+  - boosts: []
+    status: 0
     volitileStatus: 6
-  target: 0
+    chance: 10
+    target: 0
+  sound: {fileID: 8300000, guid: 67760a659896b0b488e1a5c3e1805ba9, type: 3}

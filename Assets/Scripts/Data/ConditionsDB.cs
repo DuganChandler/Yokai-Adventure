@@ -25,7 +25,7 @@ public class ConditionsDB
                 // lambda function
                 OnAfterTurn = (Yokai yokai) => 
                 {
-                    yokai.UpdateHP(yokai.MaxHp / 8);
+                    yokai.DecreaseHP(yokai.MaxHp / 8);
                     yokai.StatusChanges.Enqueue($"{yokai.Base.Name} was damaged by Poison.");
                 }
             }
@@ -39,7 +39,7 @@ public class ConditionsDB
                 // lambda function
                 OnAfterTurn = (Yokai yokai) => 
                 {
-                    yokai.UpdateHP(yokai.MaxHp / 16);
+                    yokai.DecreaseHP(yokai.MaxHp / 16);
                     yokai.StatusChanges.Enqueue($"{yokai.Base.Name} was damaged by Burn.");
                 }
             }
@@ -137,7 +137,7 @@ public class ConditionsDB
 
                     // Hurt by confusion
                     yokai.StatusChanges.Enqueue($"{yokai.Base.Name} is Confused.");
-                    yokai.UpdateHP(yokai.MaxHp / 8);
+                    yokai.DecreaseHP(yokai.MaxHp / 8);
                     yokai.StatusChanges.Enqueue($"{yokai.Base.Name} hurt itslef in its Confusion.");
                     return false;
                 }

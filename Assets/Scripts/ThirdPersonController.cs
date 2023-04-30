@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
+using System.Collections;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -12,7 +16,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class ThirdPersonController : MonoBehaviour
+    public class ThirdPersonController : MonoBehaviour, ISavable
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -174,7 +178,7 @@ namespace StarterAssets
             Move();
 
             if (Input.GetKeyDown(KeyCode.Z)) {
-                Interact();
+                StartCoroutine(Interact());
             }
         }
 
@@ -393,7 +397,7 @@ namespace StarterAssets
             {
                 if (FootstepAudioClips.Length > 0)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
+                    var index = UnityEngine.Random.Range(0, FootstepAudioClips.Length);
                     AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
                 }
             }
@@ -407,19 +411,45 @@ namespace StarterAssets
             }
         }
 
-        void Interact() {
+        IEnumerator Interact() {
             var facingDir = transform.forward;
             var interactPos = transform.position + facingDir;
 
             //Debug.DrawLine(transform.position, interactPos, Color.green, 0.5f);
 
             var collider = Physics.OverlapSphere(interactPos, 0.3f, interactableLayer);
-            Debug.Log(collider.Length);
             if (collider != null) {
                 // Calls interact from npc controller
-                collider[0].GetComponent<IInteractable>()?.Interact();
+                yield return collider[0].GetComponent<IInteractable>()?.Interact(transform);
             }
         }
 
+        public object CaptureState()
+        {
+            var saveData = new PlayerSaveData() {
+                pos = new float[] { transform.position.x, transform.position.y, transform.position.z},
+                yokai = GetComponent<YokaiParty>().YokaiList.Select(y => y.GetSaveData()).ToList()
+            };
+
+            return saveData;
+        }
+
+        public void RestoreState(object state)
+        {
+            var saveData = (PlayerSaveData)state;
+
+            // Restor Player Postition
+            var pos = saveData.pos;
+            transform.position = new Vector3(pos[0], pos[1], pos[2]);
+
+            // Restore PLayer Party
+            GetComponent<YokaiParty>().YokaiList = saveData.yokai.Select(s => new Yokai(s)).ToList();
+        }
     }
+}
+
+[Serializable]
+public class PlayerSaveData {
+    public float[] pos;
+    public List<YokaiSaveData> yokai;
 }

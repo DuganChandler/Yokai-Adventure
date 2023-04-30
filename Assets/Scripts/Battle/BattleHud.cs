@@ -22,6 +22,11 @@ public class BattleHud : MonoBehaviour
     Dictionary<ConditionID, Color> statusColors;
 
     public void SetData(Yokai yokai) {
+        if (_yokai != null) {
+            _yokai.OnStatusChanged -= SetStatusText;
+            _yokai.OnHpChanged -= UpdateHP;
+        }
+
         _yokai = yokai;
         
         nameText.text = yokai.Base.Name;
@@ -40,6 +45,7 @@ public class BattleHud : MonoBehaviour
 
         SetStatusText();
         _yokai.OnStatusChanged += SetStatusText;
+        _yokai.OnHpChanged += UpdateHP;
     }
 
     void SetStatusText() {
@@ -84,11 +90,23 @@ public class BattleHud : MonoBehaviour
         return Mathf.Clamp01(normalizedExp);
     }
 
-    public IEnumerator UpdateHP() {
-        if (_yokai.HpChanged) {
-            yield return hpBar.SetHPSmooth((float) _yokai.HP / _yokai.MaxHp);
-            _yokai.HpChanged = false;
-        }
+    public void UpdateHP() {
+        StartCoroutine(UpdateHPAsync());
+    }
+
+    public IEnumerator UpdateHPAsync() {
         
+        yield return hpBar.SetHPSmooth((float) _yokai.HP / _yokai.MaxHp); 
+    }
+
+    public IEnumerator WaitForHPUpdate() {
+        yield return new WaitUntil(() => hpBar.IsUpdating == false);
+    }
+
+    public void ClearData() {
+        if (_yokai != null) {
+            _yokai.OnStatusChanged -= SetStatusText;
+            _yokai.OnHpChanged -= UpdateHP;
+        }
     }
 }
